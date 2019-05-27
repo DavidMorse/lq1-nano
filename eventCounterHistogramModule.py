@@ -20,10 +20,15 @@ class eventCounterHistogramProducer(Module):
         self.h_count.GetXaxis().SetBinLabel(3,"sum of amc@NLO weights")
         self.h_count.GetXaxis().SetBinLabel(4,"sum of TopPt weights")
         self.h_count.SetBinContent(1,inputTree.GetEntriesFast())
+        eventsTree = inputFile.Get("Events")
+        eventsTree.GetEntry(0)
+        _LHEWeight_originalXWGTUP=1.0
+        if eventsTree.GetBranch("LHEWeight_originalXWGTUP"):
+            _LHEWeight_originalXWGTUP=abs(eventsTree.GetBranch("LHEWeight_originalXWGTUP").GetLeaf("LHEWeight_originalXWGTUP").GetValue())
         runsTree = inputFile.Get("Runs")
         runsTree.GetEntry(0)
         if runsTree.GetBranch("genEventSumw"):
-            self.h_count.SetBinContent(3,runsTree.GetBranch("genEventSumw").GetLeaf("genEventSumw").GetValue())
+            self.h_count.SetBinContent(3,runsTree.GetBranch("genEventSumw").GetLeaf("genEventSumw").GetValue()/_LHEWeight_originalXWGTUP)
 
 
     def endFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
