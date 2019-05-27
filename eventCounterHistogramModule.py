@@ -19,20 +19,20 @@ class eventCounterHistogramProducer(Module):
         self.h_count.GetXaxis().SetBinLabel(2,"passed")
         self.h_count.GetXaxis().SetBinLabel(3,"sum of amc@NLO weights")
         self.h_count.GetXaxis().SetBinLabel(4,"sum of TopPt weights")
-<<<<<<< HEAD
         self.h_count.SetBinContent(1,inputTree.GetEntriesFast())
-        eventsTree = inputFile.Get("Events")
-        eventsTree.GetEntry(0)
-        _LHEWeight_originalXWGTUP=1.0
-        if eventsTree.GetBranch("LHEWeight_originalXWGTUP"):
-            _LHEWeight_originalXWGTUP=abs(eventsTree.GetBranch("LHEWeight_originalXWGTUP").GetLeaf("LHEWeight_originalXWGTUP").GetValue())
-=======
+
         maxInt = (2**32)/2-1 # for TH1I
         entries = inputTree.GetEntriesFast()
         if entries > maxInt:
             raise RuntimeError("Had more entries in the tree ["+str(entries)+"] than we can store in the eventCounter histogram bin ["+str(maxInt)+"]!")
         self.h_count.SetBinContent(1,entries)
->>>>>>> upstream/master
+
+        eventsTree = inputFile.Get("Events")
+        eventsTree.GetEntry(0)
+        _LHEWeight_originalXWGTUP=1.0
+        if eventsTree.GetBranch("LHEWeight_originalXWGTUP"):
+            _LHEWeight_originalXWGTUP=abs(eventsTree.GetBranch("LHEWeight_originalXWGTUP").GetLeaf("LHEWeight_originalXWGTUP").GetValue())
+
         runsTree = inputFile.Get("Runs")
         runsTree.GetEntry(0)
         if runsTree.GetBranch("genEventSumw"):
