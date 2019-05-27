@@ -19,7 +19,6 @@ class eventCounterHistogramProducer(Module):
         self.h_count.GetXaxis().SetBinLabel(2,"passed")
         self.h_count.GetXaxis().SetBinLabel(3,"sum of amc@NLO weights")
         self.h_count.GetXaxis().SetBinLabel(4,"sum of TopPt weights")
-        self.h_count.SetBinContent(1,inputTree.GetEntriesFast())
 
         maxInt = (2**32)/2-1 # for TH1I
         entries = inputTree.GetEntriesFast()
