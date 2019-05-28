@@ -36,7 +36,7 @@ parser.set_defaults(isMC=True)
 #parser.add_argument('-jobNum', '--jobNum', type=int, default=1, help="")
 parser.add_argument('-era', '--era', type=str, default="2016", help="")
 parser.add_argument('-dataRun', '--dataRun', type=str, default="X", help="")
-parser.add_argument('-haddFileName', '--haddFileName', type=str, default="tree.root", help="")
+parser.add_argument('-haddFileName', '--haddFileName', type=str, default="", help="")
 parser.add_argument('-inputList', '--inputList', type=str, default="", help="")
 args = parser.parse_args()
 print "args = ",args
@@ -88,10 +88,11 @@ else:
 modulesToRun.append(eventCounterHistogramModule())
 
 # Require SCEt > 35 and passing HEEP ID
-preselection="(Electron_caloEnergy[0]/cosh(Electron_scEta[0]))>35 && Electron_cutBased_HEEP[0]==1"
-keepAndDrop='/afs/cern.ch/user/s/scooper/work/private/cmssw/10212/LQCustomNanoSkim/src/PhysicsTools/NanoAODTools/python/postprocessing/analysis/LQ/keepAndDrop.txt'
+#preselection="(Electron_caloEnergy[0]/cosh(Electron_scEta[0]))>35 && Electron_cutBased_HEEP[0]==1"
+preselection=""
+keepAndDrop='/afs/cern.ch/work/d/dmorse/work/leptoQuark/legacyAnalysis/LQ2Analysis13TeV/CMSSW_10_2_12/src/PhysicsTools/NanoAODTools/python/postprocessing/analysis/LQ/keepAndDrop.txt'
 files=GetFileList(inputList)
 print 'files=',files
 
-p=PostProcessor(".",files,cut=preselection,outputbranchsel=keepAndDrop,modules=modulesToRun,provenance=True,fwkJobReport=True,jsonInput=jsonFile,haddFileName=haddFileName)
+p=PostProcessor(".",files,cut=preselection,outputbranchsel=keepAndDrop,modules=modulesToRun,provenance=True,fwkJobReport=False,jsonInput=jsonFile,haddFileName=haddFileName)
 p.run()
